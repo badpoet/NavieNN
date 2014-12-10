@@ -19,9 +19,9 @@ mlp = MultiLayerPerceptron(Layer(
 mlp.set_weights()
 
 
-ITER = 100
+ITER = input("Iteration = ")
 for i in range(ITER):
-    if i % 5 == 0: print i * 100.0 / ITER, "%"
+    if i % 1234 == 0: print i * 100.0 / ITER, "%"
     k = random.randint(0, len(batches) - 1)
     input_data = np.array([int(c) for c in batches[k]["in"]])
     answer = batches[k]["out"]
