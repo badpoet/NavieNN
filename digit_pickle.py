@@ -4,12 +4,10 @@ import struct
 import cPickle
 import numpy as np
 
-def prepare_data():
-    f = open("digit/COLTEST.PNT", "rb")
+def prepare_data(fn):
+    f = open(fn, "rb")
     bin_data = f.read()
     f.close()
-    f = open("digit/OURDIG.PNT", "rb")
-    bin_data += f.read()
     i = 0
     obj_data = []
 
@@ -36,5 +34,7 @@ def prepare_data():
     print "data ready"
     return obj_data
 
-f = open("digit/digit.dat", "wb")
-cPickle.dump(prepare_data(), f)
+f = open("digit/digit_train.dat", "wb")
+cPickle.dump(prepare_data("digit/OURDIG.PNT"), f)
+f = open("digit/digit_test.dat", "wb")
+cPickle.dump(prepare_data("digit/COLTEST.PNT"), f)
