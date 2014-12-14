@@ -83,7 +83,7 @@ for epoch in range(1, 10):  # 9 epoch
         accuracy += nn.accuracy(label)
     print "EPOCH %d VALIDATION" % (epoch, )
     print "........AVG LOSS %f" % (loss / (len(validation_set) / batch_size), )
-    print "........AVG ACC  %f" % (accuracy / (len(validation_set) / batch_size, )
+    print "........AVG ACC  %f" % (accuracy / (len(validation_set) / batch_size), )
     valid_loss.append(loss / (len(validation_set) / batch_size))
     valid_acc.append(accuracy / (len(validation_set) / batch_size))
 
