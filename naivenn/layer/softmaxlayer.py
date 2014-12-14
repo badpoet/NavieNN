@@ -39,6 +39,8 @@ class SoftmaxLayer(OutputLayer):
 
     def accuracy(self, label):
         vid = np.argmax(self.output, axis = 1)
+        print "labels  = ", label
+        print "results = ", vid
         return (label == vid).sum() * 100.0 / len(label)
 
 
