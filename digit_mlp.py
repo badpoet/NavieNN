@@ -3,7 +3,8 @@ __author__ = 'badpoet'
 import struct
 import numpy as np
 import random
-from naivenn.mlp import MultiLayerPerceptron, Layer
+from naivenn.mlp import MultiLayerPerceptron
+from naivenn.layer import FCLayer
 from naivenn.functions import d_sigmoid, sigmoid
 import cPickle
 
@@ -14,10 +15,9 @@ tests = cPickle.load(open("digit/digit_test.dat", "rb"))
 print "CALCULATING"
 
 def train_model(batches, tests):
-    mlp = MultiLayerPerceptron(Layer(
-        9216, 200, sigmoid, d_sigmoid
-    ).connect(
-        10, sigmoid, d_sigmoid
+    mlp = MultiLayerPerceptron(
+        FCLayer(9216, 200, sigmoid, d_sigmoid).connect(
+        FCLayer(200, 10, sigmoid, d_sigmoid)
     ))
     mlp.set_weights()
 

@@ -1,8 +1,13 @@
 # ANN notes
 
-MLP on digit: 95.61% (average of 10-fold validation)
+## MLP on digit
 
-parameters: 1 hidden layer (size = 200), sigmoid + sigmoid + least square, 50000 iteration each
+### 1 
 
+input -> full connected layer, sigmod, 200 -> full connected layer, sigmod, 10 
 
+learning rate = 0.1
 
+iteration = 100000
+
+83.85%

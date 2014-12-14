@@ -1,5 +1,6 @@
 from __future__ import division
-from naivenn.mlp import Layer, MultiLayerPerceptron
+from naivenn.mlp import MultiLayerPerceptron
+from naivenn.layer import FCLayer
 from naivenn.functions import sigmoid, d_sigmoid, tanh, d_tanh
 
 import cPickle
@@ -22,11 +23,10 @@ for i in range(1, 6):
 
 tests = load_from_file("data/test_batch")
 
-mlp = MultiLayerPerceptron(Layer(
-    3072, 100, sigmoid, d_sigmoid
-).connect(
-    10, sigmoid, d_sigmoid
-))
+mlp = MultiLayerPerceptron(
+    FCLayer(3072, 100, sigmoid, d_sigmoid).connect(
+    FCLayer(100, 10, sigmoid, d_sigmoid))
+)
 mlp.set_weights()
 
 print "CALCULATING"
