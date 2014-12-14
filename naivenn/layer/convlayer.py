@@ -13,6 +13,15 @@ def rot180(d4tensor):
             d4tensor_new[i][j] = np.rot90(d4tensor[i][j], 2)
     return d4tensor_new
 
+
+class SigmoidAgent(object):
+
+    def __init__(self):
+        _x = theano.tensor.tensor4()
+        _func = theano.tensor.nnet.sigmoid(_x)
+        self.sigmoid = theano.function([_x], _func)
+
+
 class ConvLayer(Layer):
 
     def __init__(self, image_size, filter_size, batch_size, m, n, sigma, activate = "relu"):
@@ -30,6 +39,7 @@ class ConvLayer(Layer):
         self.activate = activate
         self.m = m  # number of input features
         self.n = n  # number of output features
+        self.sa = SigmoidAgent()
         self.ca = ConvAgent(self.image_shape, self.filter_shape, "valid")
         self.dca = ConvAgent(
             (m, batch_size, image_size[0], image_size[1]),
@@ -62,6 +72,8 @@ class ConvLayer(Layer):
                 self.mid[i][j] += self.b[j]
         if self.activate == "relu":
             self.output = self.mid * (self.mid > 0)
+        elif self.activate == "sigmoid":
+            self.output = self.sa.sigmoid(self.mid)
         else:
             self.output = self.mid
         assert self.output.shape == self.output_shape
@@ -72,6 +84,8 @@ class ConvLayer(Layer):
         assert delta.shape == self.output_shape
         if self.activate == "relu":
             delta *= (self.mid > 0)  # delta's dimension : (batch_size, n, o_h, o_w)
+        elif self.activate == "sigmoid":
+            delta *= self.output * (1 - self.output)
         rot_ker = rot180(self.ker.swapaxes(0, 1))
         self.delta = self.d_act_conv(delta, rot_ker)
         img = self.image.swapaxes(0, 1)
