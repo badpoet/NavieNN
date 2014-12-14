@@ -20,7 +20,7 @@ validation_set = load_from_file("cifar10/data_batch_5")
 test_set = load_from_file("cifar10/test_batch")
 
 nn = NeuralNetwork()
-batch_size = 100
+batch_size = 10
 nn.layers.append(ConvLayer((32, 32), (5, 5), batch_size, 3, 32, 0.01, "relu"))
 nn.layers.append(PoolLayer((2, 2), batch_size, 32, 28, 28))
 nn.layers.append(ConvLayer((14, 14), (3, 3), batch_size, 32, 64, 0.01, "relu"))
@@ -35,7 +35,10 @@ def mktarget(x):
     return v
 
 verbose_n = 1
-learning_rate = 0.01
+learning_rate = 0.001
+print "training set: ", len(training_set)
+print "validation set: ", len(validation_set)
+print "test set: ", len(test_set)
 print ">>>>>>>> ENGINE START >>>>>>>"
 for epoch in range(1, 10):  # 9 epoch
     if epoch == 4 or epoch == 9:  # 1,2,3->large, 4,5,6,7,8->medium, 9->small
@@ -49,23 +52,23 @@ for epoch in range(1, 10):  # 9 epoch
         batch = batch.reshape((batch_size, 3, 32, 32))
         target = np.array([mktarget(each["out"]) for each in data])
         nn.fp(batch)
-        loss = nn.loss(target)
-        accuracy = nn.accuracy(label)
+        loss += nn.loss(target)
+        accuracy += nn.accuracy(label)
         nn.bp(target, learning_rate)
-        # if batch_id % verbose_n == verbose_n - 1:
-        #     print "EPOCH %d BATCHID %d TRAINING" % (epoch, (batch_id + 1))
-        #     print "........AVG LOSS %f" % (loss / (batch_id + 1), )
-        #     print "........AVG ACC  %f" % (accuracy / (batch_id + 1), )
-        print "EPOCH %d BATCHID %d TRAINING" % (epoch, (batch_id + 1))
-        print "........LOSS %f" % loss
-        print "........ACC  %f" % accuracy
+        if batch_id % verbose_n == verbose_n - 1:
+            print "EPOCH %d BATCHID %d TRAINING" % (epoch, (batch_id + 1))
+            print "........AVG LOSS %f" % (loss / (batch_id + 1), )
+            print "........AVG ACC  %f" % (accuracy / (batch_id + 1), )
+        # print "EPOCH %d BATCHID %d TRAINING" % (epoch, (batch_id + 1))
+        # print "........LOSS %f" % loss
+        # print "........ACC  %f" % accuracy
     loss = 0
     accuracy = 0
     for batch_id in range(len(validation_set) / batch_size):
         data = validation_set[batch_size * batch_id : batch_size * (1 + batch_id)]
         label = np.array([each["out"] for each in data])
         batch = np.array([each["in"] for each in data])
-        batch.reshape((batch_size, 3, 32, 32))
+        batch = batch.reshape((batch_size, 3, 32, 32))
         target = np.array([mktarget(each["out"]) for each in data])
         nn.fp(batch)
         loss += nn.loss(target)
