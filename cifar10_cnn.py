@@ -81,6 +81,8 @@ for epoch in range(1, 10):  # 9 epoch
         nn.fp(batch)
         loss += nn.loss(target)
         accuracy += nn.accuracy(label)
+        if batch_id % 100 == 0:
+            print "VALIDATING... %f" % (100.0 * batch_id / (len(validation_set) / batch_size), )
     print "EPOCH %d VALIDATION" % (epoch, )
     print "........AVG LOSS %f" % (loss / (len(validation_set) / batch_size), )
     print "........AVG ACC  %f" % (accuracy / (len(validation_set) / batch_size), )
@@ -98,7 +100,9 @@ for batch_id in range(len(test_set) / batch_size):
     nn.fp(batch)
     loss += nn.loss(target)
     accuracy += nn.accuracy(label)
-print "TEST" 
+    if batch_id % 100 == 0:
+        print "TESTING... %f" % (100.0 * batch_id / (len(test_set) / batch_size), )
+print "TEST"
 print "....AVG LOSS %f" % (loss / (len(test_set) / batch_size), )
 print "....AVG ACC  %f" % (accuracy / (len(validation_set) / batch_size), )
 test_loss = loss / (len(validation_set) / batch_size)
