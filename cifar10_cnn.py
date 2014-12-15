@@ -27,7 +27,7 @@ nn.layers.append(PoolLayer((2, 2), batch_size, 32, 28, 28))
 nn.layers.append(ConvLayer((14, 14), (3, 3), batch_size, 32, 32, 0.01, "relu"))
 nn.layers.append(PoolLayer((3, 3), batch_size, 32, 12, 12))
 nn.layers.append(FlatLayer(batch_size, 64, 4, 4, 1024))
-nn.layers.append66(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
+nn.layers.append(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
 nn.layers.append(SoftmaxLayer(batch_size, 10))
 
 def mktarget(x):
