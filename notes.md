@@ -108,6 +108,8 @@ nn.layers.append(SoftmaxLayer(batch_size, 10))
 ```
 data mean
 
+failed
+
 ### term 5 again
 ```
 batch_size = 20
@@ -172,5 +174,15 @@ learning_rate = 0.001
 nn.layers.append(FlatLayer(batch_size, 3, 32, 32, 3072))
 nn.layers.append(FCLayer(batch_size, 3072, 800, 0.01, "sigmoid"))
 nn.layers.append(FCLayer(batch_size, 800, 10, 0.01, "sigmoid"))
+nn.layers.append(LeastMeanSquareLayer(batch_size, 10))
+```
+
+### term 11
+```
+batch_size = 20
+learning_rate = 0.001
+nn.layers.append(FlatLayer(batch_size, 3, 32, 32, 3072))
+nn.layers.append(FCLayer(batch_size, 3072, 800, 0.01, "relu"))
+nn.layers.append(FCLayer(batch_size, 800, 10, 0.01, "relu"))
 nn.layers.append(LeastMeanSquareLayer(batch_size, 10))
 ```
