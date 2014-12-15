@@ -21,7 +21,7 @@ test_set = load_from_file("cifar10/test_batch")
 
 nn = NeuralNetwork()
 batch_size = 20
-learning_rate = 0.0001
+learning_rate = 0.0003
 nn.layers.append(ConvLayer((32, 32), (5, 5), batch_size, 3, 32, 0.01, "relu"))
 nn.layers.append(PoolLayer((2, 2), batch_size, 32, 28, 28))
 nn.layers.append(ConvLayer((14, 14), (3, 3), batch_size, 32, 32, 0.01, "relu"))
