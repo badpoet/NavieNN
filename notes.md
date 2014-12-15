@@ -62,6 +62,8 @@ Softmax : {
 }
 ```
 
+55%
+
 ### term 7
 ```
 batch_size = 20
@@ -89,4 +91,4 @@ nn.layers.append(FlatLayer(batch_size, 64, 4, 4, 1024))
 nn.layers.append(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
 nn.layers.append(SoftmaxLayer(batch_size, 10))
 ```
-    
+key=86381, 48%

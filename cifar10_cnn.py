@@ -8,7 +8,7 @@ from naivenn.nnet import NeuralNetwork
 def load_from_file(fn):
     dic = cPickle.load(open(fn, "rb"))
     return [{
-                "in": d / 255.0,
+                "in": d,
                 "out": r
             } for d, r in zip(dic["data"], dic["labels"])]
 
@@ -44,8 +44,8 @@ valid_acc = []
 data_mean = np.zeros(3072)
 for each in training_set:
     data_mean += each["in"]
-data_mean = data_mean * 1.0 / len(training_set)
-data_mean = np.tile(data_mean, batch_size)
+data_mean = data_mean.sum() * 1.0 / (len(training_set) * len(data_mean))
+data_mean = np.tile(data_mean, batch_size * 3 * 32 * 32)
 data_mean = data_mean.reshape((batch_size, 3, 32, 32))
 
 print "training set: ", len(training_set)
