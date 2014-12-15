@@ -26,7 +26,7 @@ nn.layers.append(FlatLayer(batch_size, 3, 32, 32, 3072))
 nn.layers.append(FCLayer(batch_size, 3072, 800, 0.01, "sigmoid"))
 nn.layers.append(FCLayer(batch_size, 800, 10, 0.01, "sigmoid"))
 nn.layers.append(SoftmaxLayer(batch_size, 10))
-
+sdfasdf
 def mktarget(x):
     v = np.zeros(10)
     v[x] = 1
