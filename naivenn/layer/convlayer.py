@@ -74,6 +74,8 @@ class ConvLayer(Layer):
             self.output = self.mid * (self.mid > 0)
         elif self.activate == "sigmoid":
             self.output = self.sa.sigmoid(self.mid)
+        elif self.activate == "tanh":
+            self.output = np.tanh(self.mid)
         else:
             self.output = self.mid
         assert self.output.shape == self.output_shape
@@ -86,6 +88,8 @@ class ConvLayer(Layer):
             delta *= (self.mid > 0)  # delta's dimension : (batch_size, n, o_h, o_w)
         elif self.activate == "sigmoid":
             delta *= self.output * (1 - self.output)
+        elif self.activate == "tanh":
+            delta *= 1 - self.output ** 2
         rot_ker = rot180(self.ker.swapaxes(0, 1))
         self.delta = self.d_act_conv(delta, rot_ker)
         img = self.image.swapaxes(0, 1)
