@@ -76,6 +76,9 @@ nn.layers.append(FlatLayer(batch_size, 64, 4, 4, 1024))
 nn.layers.append(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
 nn.layers.append(SoftmaxLayer(batch_size, 10))
 ```
+validation(E8) = 48%
+
+key=77431
 
 ### term 5
 ```
@@ -177,7 +180,7 @@ nn.layers.append(FCLayer(batch_size, 800, 10, 0.01, "sigmoid"))
 nn.layers.append(LeastMeanSquareLayer(batch_size, 10))
 ```
 
-### term 11
+### term 7
 ```
 batch_size = 20
 learning_rate = 0.001

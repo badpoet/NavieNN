@@ -28,8 +28,9 @@ class ConvLayer(Layer):
             image_size[1] - filter_size[1] + 1
         )
         self.ker = np.random.normal(0, sigma, size = self.filter_shape)
-        # self.ker = np.ones((self.filter_shape))
+        self.delta_ker = np.zeros(self.filter_shape)
         self.b = np.zeros(n)
+        self.delta_b = np.zeros(self.n)
         self.activate = activate
         self.mom = mom
         self.decay = decay
@@ -91,10 +92,14 @@ class ConvLayer(Layer):
         img = self.image.swapaxes(0, 1)
         act = rot180(delta.swapaxes(0, 1))
         ker_delta = rot180(self.d_ker_conv(img, act)).swapaxes(0, 1)
-        self.ker -= ker_delta * learning_rate
+        self.ker -= ker_delta * learning_rate - self.mom * self.last_delta_ker
+        self.last_delta_ker = ker_delta
+        delta_b = np.zeros(self.n)
         for batch_delta in delta:
             for i in range(self.n):
-                self.b[i] -= batch_delta[i].sum() * learning_rate
+                delta_b[i] -= batch_delta[i].sum() * learning_rate
+        self.last_delta_b = delta_b
+        self.b += self.delta_b + self.mom * self.last_delta_b
         assert self.delta.shape == self.image_shape
         return self.delta
 
