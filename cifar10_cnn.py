@@ -22,15 +22,13 @@ test_set = load_from_file("cifar10/test_batch")
 nn = NeuralNetwork()
 batch_size = 20
 learning_rate = 0.001
-nn.layers.append(ConvLayer((32, 32), (5, 5), batch_size, 3, 32, 0.01, "tanh"))
+nn.layers.append(ConvLayer((32, 32), (5, 5), batch_size, 3, 32, 0.01, "relu"))
 nn.layers.append(PoolLayer((2, 2), batch_size, 32, 28, 28))
-nn.layers.append(ConvLayer((14, 14), (3, 3), batch_size, 32, 32, 0.005, "relu"))
-nn.layers.append(PoolLayer((2, 2), batch_size, 32, 12, 12))
-nn.layers.append(ConvLayer((6, 6), (3, 3), batch_size, 32, 64, 0.005, "relu"))
+nn.layers.append(ConvLayer((14, 14), (3, 3), batch_size, 32, 32, 0.01, "relu"))
+nn.layers.append(PoolLayer((3, 3), batch_size, 32, 12, 12))
 nn.layers.append(FlatLayer(batch_size, 64, 4, 4, 1024))
-nn.layers.append(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
-nn.layers.append(FCLayer(batch_size, 10, 10, 0.01, "sigmoid"))
-nn.layers.append(LeastMeanSquareLayer(batch_size, 10))
+nn.layers.append66(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
+nn.layers.append(SoftmaxLayer(batch_size, 10))
 
 def mktarget(x):
     v = np.zeros(10)
