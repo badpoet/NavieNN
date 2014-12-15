@@ -5,6 +5,8 @@ from theano.tensor.signal.downsample import max_pool_2d
 import theano
 from layer import Layer
 
+from naivenn.lib.theanolib import PoolAgent
+
 class PoolLayer(Layer):
 
     def __init__(self, pool_size, batch_size, n_feature, h, w):
@@ -40,18 +42,6 @@ class PoolLayer(Layer):
                                     self.act[i][j][t_i][t_j] = delta[i][j][k][l]
         assert self.act.shape == self.image_shape
         return self.act
-
-
-class PoolAgent(object):
-
-    def __init__(self, pool_size, image_shape):
-        self.pool_size = pool_size
-        self.image = theano.tensor.matrix().reshape(image_shape)
-        self.pool_func = max_pool_2d(self.image, pool_size)
-        self.pool = theano.function(
-            [self.image],
-            self.pool_func
-        )
 
 
 def __test_pool_layer():

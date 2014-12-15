@@ -29,7 +29,8 @@ nn.layers.append(PoolLayer((2, 2), batch_size, 32, 12, 12))
 nn.layers.append(ConvLayer((6, 6), (3, 3), batch_size, 32, 64, 0.01, "tanh"))
 nn.layers.append(FlatLayer(batch_size, 64, 4, 4, 1024))
 nn.layers.append(FCLayer(batch_size, 1024, 10, 0.01, "tanh"))
-nn.layers.append(SoftmaxLayer(batch_size, 10))
+nn.layers.append(FCLayer(batch_size, 10, 10, 0.01, "sigmoid"))
+nn.layers.append(LeastMeanSquareLayer(batch_size, 10))
 
 def mktarget(x):
     v = np.zeros(10)

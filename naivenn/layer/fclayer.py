@@ -2,7 +2,7 @@ __author__ = 'badpoet'
 
 import numpy as np
 from layer import Layer
-
+from naivenn.lib.theanolib import SigmoidAgent
 class FCLayer(Layer):
 
     def __init__(self, batch_size, in_size, out_size, sigma, activate):
@@ -13,6 +13,7 @@ class FCLayer(Layer):
         self.w_shape = (out_size, in_size)
         self.out_shape = (batch_size, out_size)
         self.activate = activate
+        self.sa = SigmoidAgent()
         self.w = np.random.normal(0, sigma, self.w_shape)
         self.b = np.zeros(self.out_size)
 
@@ -28,6 +29,10 @@ class FCLayer(Layer):
             self.a[i] = np.dot(self.w, self.s[i]) + self.b
         if self.activate == "tanh":
             self.z = np.tanh(self.a)
+        elif self.activate == "sigmoid":
+            self.z = self.sa.sigmoid2(self.a)
+        else:
+            self.z = self.a
         assert self.z.shape == self.out_shape
         return self.z
 
@@ -35,6 +40,8 @@ class FCLayer(Layer):
         assert error.shape == self.out_shape
         if self.activate == "tanh":
             self.err = -(np.tanh(self.a) ** 2) + 1
+        elif self.activate == "sigmoid":
+            self.err = self.z * (1 - self.z)
         else:
             self.err = np.ones(error.shape)
         self.err *= error

@@ -4,19 +4,7 @@ from outputlayer import OutputLayer
 import numpy as np
 import theano
 
-class SoftmaxAgent(object):
-
-    def __init__(self):
-        _x = theano.tensor.matrix()
-        _func = theano.tensor.nnet.softmax(_x)
-        self.softmax = theano.function([_x], _func)
-
-class LogAgent(object):
-
-    def __init__(self):
-        _x = theano.tensor.matrix()
-        _func = theano.tensor.log(_x)
-        self.log = theano.function([_x], _func)
+from naivenn.lib.theanolib import LogAgent, SoftmaxAgent
 
 class SoftmaxLayer(OutputLayer):
 

@@ -1,8 +1,11 @@
 __author__ = 'badpoet'
 
 import numpy as np
+
 import scipy as sp
 import theano
+
+from naivenn.lib.theanolib import SigmoidAgent
 
 from layer import Layer
 
@@ -13,18 +16,9 @@ def rot180(d4tensor):
             d4tensor_new[i][j] = np.rot90(d4tensor[i][j], 2)
     return d4tensor_new
 
-
-class SigmoidAgent(object):
-
-    def __init__(self):
-        _x = theano.tensor.tensor4()
-        _func = theano.tensor.nnet.sigmoid(_x)
-        self.sigmoid = theano.function([_x], _func)
-
-
 class ConvLayer(Layer):
 
-    def __init__(self, image_size, filter_size, batch_size, m, n, sigma, activate = "relu"):
+    def __init__(self, image_size, filter_size, batch_size, m, n, sigma, activate = "relu", mom = 0.9, decay = 0.0005):
         self.image_shape = (batch_size, m, image_size[0], image_size[1])
         self.filter_shape = (n, m, filter_size[0], filter_size[1])
         self.output_shape = (
@@ -37,6 +31,8 @@ class ConvLayer(Layer):
         # self.ker = np.ones((self.filter_shape))
         self.b = np.zeros(n)
         self.activate = activate
+        self.mom = mom
+        self.decay = decay
         self.m = m  # number of input features
         self.n = n  # number of output features
         self.sa = SigmoidAgent()
