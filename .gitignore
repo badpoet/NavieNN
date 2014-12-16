@@ -1,6 +1,7 @@
 .idea
 digit/digit.dat
 env/
+*.dat
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
